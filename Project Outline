@@ -6,7 +6,7 @@ A simple Android app for calculating and dividing restaurant bills.
 - Includes tip and tax.
 - Rounding option.
 ## Technologies
-- Kotlin, Jetpack Compose, Material 3.
+- Android Studio, Kotlin, Jetpack Compose, Material 3.
 ## Git Commands
 git init
 git add .
