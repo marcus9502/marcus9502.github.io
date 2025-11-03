@@ -1,0 +1,14 @@
+# BillSplitter App
+## Description
+A simple Android app for calculating and dividing restaurant bills.
+## Features
+- Calculates total and per-person costs.
+- Includes tip and tax.
+- Rounding option.
+## Technologies
+- Kotlin, Jetpack Compose, Material 3.
+## Git Commands
+git init
+git add .
+git commit -m "Initial commit - project outline"
+git push origin main
