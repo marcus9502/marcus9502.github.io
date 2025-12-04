@@ -1,0 +1,198 @@
+ANDROID (Kotlin)
+How to use
+In Android Studio → “New Project” → Empty Activity (or No Activity and add one). Minimum SDK 24+.
+Replace the generated files with the ones below (match package names) and sync Gradle.
+
+--settings.gradle.kts--
+pluginManagement {
+repositories {
+google()
+mavenCentral()
+gradlePluginPortal()
+}
+}
+dependencyResolutionManagement {
+repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+repositories {
+google()
+mavenCentral()
+}
+}
+rootProject.name = "BillSplitter"
+include(":app")
+
+--Project build.gradle.kts--
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+id("com.android.application") version "8.6.0" apply false
+id("org.jetbrains.kotlin.android") version "2.0.0" apply false
+
+--Module app/build.gradle.kts--
+plugins {
+id("com.android.application")
+id("org.jetbrains.kotlin.android")
+}
+
+
+android {
+namespace = "com.example.billsplitter"
+compileSdk = 35
+
+
+defaultConfig {
+applicationId = "com.example.billsplitter"
+minSdk = 24
+targetSdk = 35
+versionCode = 1
+versionName = "1.0"
+}
+
+
+buildTypes {
+release {
+isMinifyEnabled = false
+proguardFiles(
+getDefaultProguardFile("proguard-android-optimize.txt"),
+"proguard-rules.pro"
+)
+}
+}
+compileOptions {
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+}
+kotlinOptions {
+jvmTarget = "17"
+}
+buildFeatures {
+compose = true
+}
+composeOptions {
+kotlinCompilerExtensionVersion = "1.5.15"
+}
+packaging {
+resources {
+excludes += "/META-INF/{AL2.0,LGPL2.1}"
+}
+}
+}
+
+
+dependencies {
+val composeBom = platform("androidx.compose:compose-bom:2024.10.01")
+implementation(composeBom)
+androidTestImplementation(composeBom)
+
+
+implementation("androidx.core:core-ktx:1.13.1")
+implementation("androidx.activity:activity-compose:1.9.3")
+implementation("androidx.compose.ui:ui")
+implementation("androidx.compose.ui:ui-tooling-preview")
+implementation("androidx.compose.material3:material3:1.3.0")
+debugImplementation("androidx.compose.ui:ui-tooling")
+}
+
+--app/src/main/AndroidManifest.xml--
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<application
+android:allowBackup="true"
+android:icon="@mipmap/ic_launcher"
+android:label="BillSplitter"
+android:supportsRtl="true"
+android:theme="@style/Theme.Material3.DayNight.NoActionBar">
+<activity
+android:name=".MainActivity"
+android:exported="true">
+<intent-filter>
+<action android:name="android.intent.action.MAIN" />
+<category android:name="android.intent.category.LAUNCHER" />
+</intent-filter>
+</activity>
+</application>
+</manifest>
+
+--app/src/main/java/com/example/billsplitter/MainActivity.kt--
+package com.example.billsplitter
+.padding(16.dp)
+.fillMaxSize(),
+verticalArrangement = Arrangement.spacedBy(16.dp)
+) {
+OutlinedTextField(
+value = subtotal,
+onValueChange = { subtotal = it.filter { ch -> ch.isDigit() || ch == '.' } },
+label = { Text("Subtotal") },
+placeholder = { Text("e.g., 75.00") },
+leadingIcon = { Text(text = nf.currency!!.symbol) },
+keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal, imeAction = ImeAction.Next),
+modifier = Modifier.fillMaxWidth()
+)
+
+
+Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
+OutlinedTextField(
+value = taxPercent,
+onValueChange = { taxPercent = it.filter { c -> c.isDigit() || c == '.' } },
+label = { Text("Tax %") },
+singleLine = true,
+keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+modifier = Modifier.weight(1f)
+)
+OutlinedTextField(
+value = tipPercent,
+onValueChange = { tipPercent = it.filter { c -> c.isDigit() || c == '.' } },
+label = { Text("Tip %") },
+singleLine = true,
+keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
+keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+modifier = Modifier.weight(1f)
+)
+}
+
+
+Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+Text(text = "Party size: ${people.toInt()}")
+Slider(
+value = people,
+onValueChange = { people = it },
+valueRange = 1f..20f,
+steps = 18
+)
+}
+
+
+Row(verticalAlignment = Alignment.CenterVertically) {
+Switch(checked = roundPerPerson, onCheckedChange = { roundPerPerson = it })
+Spacer(Modifier.width(8.dp))
+Text("Round per person")
+}
+
+
+Divider()
+
+
+SummaryRow(label = "Tax", value = nf.format(tax))
+SummaryRow(label = "Tip", value = nf.format(tip))
+SummaryRow(label = "Total", value = nf.format(total))
+SummaryRow(label = "Per person", value = nf.format(perPerson))
+if (roundPerPerson) {
+val roundedTotal = perPerson * headcount
+AssistChip(onClick = {}, label = { Text("Rounded total: ${nf.format(roundedTotal)}") })
+}
+}
+}
+}
+}
+
+
+@Composable
+fun SummaryRow(label: String, value: String) {
+Row(
+Modifier.fillMaxWidth(),
+horizontalArrangement = Arrangement.SpaceBetween,
+verticalAlignment = Alignment.CenterVertically
+) {
+Text(label, style = MaterialTheme.typography.bodyLarge)
+Text(value, style = MaterialTheme.typography.titleMedium)
+}
+}
