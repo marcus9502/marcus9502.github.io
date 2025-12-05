@@ -1,0 +1,106 @@
+# BillSplitter App
+Developed by Marcus Lee
+
+BillSplitter is a mobile app designed to simplify group bill sharing by providing fast, accurate, and transparent expense-splitting features. Whether you are dining out, traveling, or managing shared household costs, this app eliminates the confusion and frustration that usually comes with splitting payments among multiple people.
+
+---
+
+## Table of Contents
+1. Project Description  
+2. Problem Addressed  
+3. Platform  
+4. Front-End Support  
+5. Back-End Support  
+6. Functionality  
+7. Design (Wireframes)  
+8. Version Changelog  
+9. GitHub Wiki & Documentation  
+10. Future Enhancements  
+11. Developer Information  
+
+---
+
+## 1. Project Description
+BillSplitter is an Android-based mobile application built to help users enter expenses, add participants, and instantly calculate how much each person owes. The app uses a clean interface, Java-based logic, and optional SMS integration to notify participants. It is designed for reliability, clarity, and ease of use.
+
+---
+
+## 2. Problem Addressed
+Splitting bills manually leads to:
+- Incorrect math  
+- Miscommunication  
+- Lost screenshotted notes  
+- Frustrations over who owes what  
+
+BillSplitter solves this by providing:
+- Automated calculations  
+- Transparent results  
+- Saved payment history  
+- Messaging options  
+- Support for recurring and one-time expenses  
+
+---
+
+## 3. Platform
+**Primary:** Android (Android Studio, Java)  
+**Secondary (Future):** iOS (Swift or KMP)  
+
+Supported devices: Android 10 and newer.  
+Distribution goal: Google Play Store and Apple App Store.
+
+---
+
+## 4. Front-End Support
+- **Language:** Java  
+- **Framework:** Android SDK  
+- **UI Elements:** RecyclerView, CardView, Material Design  
+- **Design Principles:**  
+  - Clean layout  
+  - Minimal clicks to perform tasks  
+  - Clear text alignment and spacing  
+  - Consistent color scheme  
+
+---
+
+## 5. Back-End Support
+- **Local Storage:** Room Database (Expenses, Participants, History)  
+- **Cloud (Future):** Firebase Authentication and Firestore  
+- **Core Logic:**  
+  - Java-based split calculation  
+  - Validation for numeric inputs  
+  - Modular architecture following MVVM principles  
+- **Security:**  
+  - Input validation  
+  - No sensitive financial data stored  
+  - Optional MFA with Firebase  
+
+---
+
+## 6. Functionality
+### Core Features:
+- Add a bill with total or itemized costs  
+- Add participants manually or from contacts  
+- Calculate even or custom splits  
+- Generate detailed results  
+- Send results via SMS or email  
+- Track who paid and who still owes  
+- Save and view past bills  
+
+### Planned:
+- Dark mode  
+- PDF export  
+- Cloud backup  
+- iOS version  
+
+---
+
+## 7. Design (Wireframes)
+Wireframes include:
+- Splash Page  
+- Main Dashboard  
+- Add Bill Page  
+- Add Participants Page  
+- Results Page  
+- History Page  
+
+Wireframes will be uploaded under:
